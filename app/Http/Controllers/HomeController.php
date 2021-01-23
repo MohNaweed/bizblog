@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\Category;
 
@@ -27,9 +28,27 @@ class HomeController extends Controller
     {
 
 
+       //return Post::find(1)->categories[0]->name;
 
-        return view('home')
-            ->with('posts', Post::all())
-            ->with('categories', Category::all());
+
+        //$post = Post::orderBy('id','desc')->
+        // $post = DB::table('posts')->inRandomOrder()->paginate(5);
+
+       // $posts = Post::Select(*)->inRandomOrder()->paginate(5)->get();
+
+
+
+        $posts = Post::paginate(5);
+
+        $recentPosts = Post::limit(4)->orderBy('updated_at','desc')->get();
+
+
+
+          return view('home')
+            ->withPosts( $posts)
+            ->with('categories', Category::all())
+            ->withRecentPosts($recentPosts);
+
+
     }
 }
