@@ -36,9 +36,11 @@ class HomeController extends Controller
 
        // $posts = Post::Select(*)->inRandomOrder()->paginate(5)->get();
 
+       $posts = Post::select('*')
+                    ->inRandomOrder()
+                    ->paginate(5);
 
-
-        $posts = Post::paginate(5);
+        //$posts = Post::paginate(5);
 
         $recentPosts = Post::limit(4)->orderBy('updated_at','desc')->get();
 

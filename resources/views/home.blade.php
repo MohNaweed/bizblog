@@ -95,7 +95,7 @@
                     </div>
                     <!-- Section Title -->
                     <!-- Post -->
-                    @foreach($posts as $post)
+                    @foreach($posts->sortBy('created_at') as $post)
                     <div class="post-default post-has-no-thumb">
                         <div class="post-data">
                             <!-- Category -->
