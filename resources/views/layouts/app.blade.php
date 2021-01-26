@@ -13,5 +13,8 @@
     </div>
 
     @include('partial._footer')
+
+
+    @yield('script')
 </body>
 </html>

@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/blog_details/{id}','HomeController@show')->name('blog_details');
+
+
+Route::resource('categories','CategoryController');

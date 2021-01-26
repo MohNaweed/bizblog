@@ -96,7 +96,7 @@
                     <!-- Section Title -->
                     <!-- Post -->
                     @foreach($posts->sortBy('created_at') as $post)
-                    <div class="post-default post-has-no-thumb">
+                    <div class="post-default post-has-no-thumb" style="background-color:#eee">
                         <div class="post-data">
                             <!-- Category -->
                             <div class="cats">
@@ -117,6 +117,7 @@
                                 </li>
                                 <li class="meta-date"><a href="#">{{$post->updated_at}}</a></li>
                                 <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> {{count($post->comments)}}</a></li>
+                                <li ><img src="{{asset('assets/icons/heart_outline_48px.png')}}" class="addlike" alt="" width="30px" height="30px" style="cursor: pointer"></li>
                             </ul>
                             <!-- Post Desc -->
                             <div class="desc">
@@ -375,4 +376,26 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+
+    $(document).ready(function(){
+        $(".addlike").each(function(){
+            $(this).click(function(){
+                if($(this).attr("src") == "http://bizblog.test/assets/icons/heart_outline_48px.png"){
+
+                    $(this).attr("src","http://bizblog.test/assets/icons/heart_48px.png");
+                }
+
+                else{
+                    $(this).attr("src","http://bizblog.test/assets/icons/heart_outline_48px.png");
+                }
+
+            })
+        })
+
+    })
+</script>
 @endsection

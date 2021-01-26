@@ -28,19 +28,9 @@ class HomeController extends Controller
     {
 
 
-       //return Post::find(1)->categories[0]->name;
-
-
-        //$post = Post::orderBy('id','desc')->
-        // $post = DB::table('posts')->inRandomOrder()->paginate(5);
-
-       // $posts = Post::Select(*)->inRandomOrder()->paginate(5)->get();
-
        $posts = Post::select('*')
                     ->inRandomOrder()
                     ->paginate(5);
-
-        //$posts = Post::paginate(5);
 
         $recentPosts = Post::limit(4)->orderBy('updated_at','desc')->get();
 
@@ -52,5 +42,12 @@ class HomeController extends Controller
             ->withRecentPosts($recentPosts);
 
 
+    }
+
+
+    public function show($id){
+        $recentPosts = Post::limit(4)->orderBy('updated_at','desc')->get();
+        $categories = Category::all();
+        return view('website.blog_details',compact('recentPosts','categories'));
     }
 }
