@@ -107,7 +107,7 @@
                             </div>
                             <!-- Title -->
                             <div class="title">
-                                <h2><a href="blog-details.html">{{ $post->title}}</a></h2>
+                                <h2><a href="{{route('blog_details',$post->slug)}}">{{ $post->title}}</a></h2>
                             </div>
                             <!-- Post Meta -->
                             <ul class="nav meta align-items-center">

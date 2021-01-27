@@ -45,9 +45,11 @@ class HomeController extends Controller
     }
 
 
-    public function show($id){
+    public function show(Post  $post){
+
+
         $recentPosts = Post::limit(4)->orderBy('updated_at','desc')->get();
         $categories = Category::all();
-        return view('website.blog_details',compact('recentPosts','categories'));
+        return view('website.blog_details',compact('recentPosts','categories','post'));
     }
 }

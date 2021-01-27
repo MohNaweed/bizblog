@@ -104,7 +104,7 @@
                         <!-- Nav Menu -->
                         <div class="nav-menu-cover">
                             <ul class="nav nav-menu">
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="{{route('home')}}">Home</a></li>
                                 <li><a href="about.html">About</a></li>
                                 <li class="menu-item-has-children"><a href="#">Blog</a>
                                     <ul class="sub-menu">

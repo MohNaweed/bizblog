@@ -27,24 +27,25 @@
                         <div class="post-meta-info">
                             <!-- Category -->
                             <p class="cats">
-                                <a href="#">Featured</a>
-                                <a href="#">Adventure</a>
+                                @foreach($post->categories as $cat)
+                                <a href="#">{{$cat->name}}</a>
+                                @endforeach
                             </p>
 
                             <!-- Title -->
                             <div class="title">
-                                <h2>Top Things To Look For When Choosing A Safari Lodge</h2>
+                                <h2>{{$post->title}}</h2>
                             </div>
 
                             <!-- Meta -->
                             <ul class="nav meta align-items-center">
                                 <li class="meta-author">
-                                    <img src="assets/images/blog/author.jpg" alt="" class="img-fluid">
-                                    <a href="#">Alex Garry</a>
+                                    <img src="{{asset('assets/images/blog/author.jpg')}}" alt="" class="img-fluid">
+                                    <a href="#">{{$post->user->name}}</a>
                                 </li>
-                                <li class="meta-date"><a href="#">2 Feb 2019</a></li>
+                                <li class="meta-date"><a href="#">{{$post->updated_at}}</a></li>
                                 <li> 2 min read </li>
-                                <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> 2</a></li>
+                                <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> {{count($post->comments)}}</a></li>
                             </ul>
                         </div>
                         <!-- End of Post Meta Info -->
@@ -54,52 +55,16 @@
                     <!-- Post Content -->
                     <div class="post-content-cover my-drop-cap">
                         <p>
-                            She travelling acceptance men unpleasant her especially to entreaties law. Law forth but end any arise chief arose. Old her say learn these large. Joy fond many in  ham high seen this. Few preferred continual led incommode neglected.  To discovered insensible collecting your unpleasant but invitation.
-                        </p>
-
-                        <p>
-                            We diminution preference thoroughly if. Joy deal pain view much too  her time. Led young gay would now state. Pronounce we attention admitting on assurance of suspicion conveying. That his west quit had met till. By an outlived insisted procured improved am.
-                        </p>
-
-                        <div class="post-my-gallery-images">
-                            <h3>The Best Neighborhoods In Nyc: Where To Stay On </h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img src="assets/images/blog/post/1.jpg" alt="" class="img-fluid">
-                                </div>
-                                <div class="col-md-6">
-                                    <img src="assets/images/blog/post/2.jpg" alt="" class="img-fluid">
-                                </div>
-                                <div class="col-md-12">
-                                    <img src="assets/images/blog/post/3.jpg" alt="" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-
-                        <p>
-                            We diminution preference thoroughly if. Joy deal pain view much her time. Led young gay would now off state. Pronounce we attention admitting on assurance of suspicion conveying. That his west quit had met till. Say out  plate you share.
-                        </p>
-
-                        <blockquote>
-                            <p>For me, running is both exercise and a metaphor. Running day after day, piling up each level I elevate myself.</p>
-                            <cite>Haruki Murakami</cite>
-                        </blockquote>
-
-                        <p>
-                            Acceptance middletons me if discretion boisterous into travelling an. She prosperous to continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially asking additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched.
+                           {{$post->body}}
                         </p>
                     </div>
                     <!-- End of Post Content -->
 
                     <!-- Tags -->
                     <div class="post-all-tags">
-                        <a href="#">Fashion</a>
-                        <a href="#">Art</a>
-                        <a href="#">Lifestyle</a>
-                        <a href="#">Love</a>
-                        <a href="#">Travel</a>
-                        <a href="#">Movie</a>
-                        <a href="#">Games</a>
+                        @foreach($post->tags as $tag)
+                            <a href="#">{{$tag->name}}</a>
+                        @endforeach
                     </div>
                     <!-- End of Tags -->
 
@@ -109,16 +74,14 @@
                             <img src="assets/images/blog/author.jpg" alt="" class="img-fluid">
                         </div>
                         <div class="author-desc">
-                            <h5> <a href="#"> Alex Garry </a> </h5>
+                            <h5> <a href="#">{{$post->user->name}}</a> </h5>
                             <div class="description">
-                                On recommend tolerably my belonging or am. Mutual has cannot beauty indeed now sussex merely you. It possible no husbands jennings ye offended packages pleasant he.
+                                {{$post->user->profile->bio}}
                             </div>
                             <div class="social-icons">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="{{$post->user->profile->facebook}}"><i class="fa fa-facebook"></i></a>
+                                <a href="{{$post->user->profile->twitter}}"><i class="fa fa-twitter"></i></a>
+
                             </div>
                         </div>
                     </div>
@@ -126,85 +89,36 @@
 
                     <!-- Comments -->
                     <button class="btn btn-comment" type="button" data-toggle="collapse" data-target="#commentToggle" aria-expanded="false" aria-controls="commentToggle">
-                        Hide Comments (4)
+                        Hide Comments ({{count($post->comments)}})
                     </button>
 
                     <div class="collapse show" id="commentToggle">
                         <ul class="post-all-comments">
-                            <li class="single-comment-wrapper">
-                                <!-- Single Comment -->
-                                <div class="single-post-comment">
-                                    <!-- Author Image -->
-                                    <div class="comment-author-image">
-                                        <img src="assets/images/blog/post/author-1.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <!-- Comment Content -->
-                                    <div class="comment-content">
-                                        <div class="comment-author-name">
-                                            <h6>Don Norman</h6> <span> 5 Jan 2019 at 6:40 pm </span>
+                            @if(count($post->comments) == 0)
+                                <p>The post has not any comment</p>
+
+                            @else
+                                @foreach($post->comments as $comment)
+                                <li class="single-comment-wrapper">
+                                    <!-- Single Comment -->
+                                    <div class="single-post-comment">
+                                        <!-- Author Image -->
+                                        <div class="comment-author-image">
+                                            <img src="{{asset('assets/images/blog/post/author-1.jpg')}}" alt="" class="img-fluid">
                                         </div>
-                                        <p>On recommend tolerably my belonging or am. Mutual has cannot beauty indeed now back sussex merely you. It possible no husbands jennings offended.</p>
-                                        <a href="#" class="reply-btn">Reply</a>
-                                    </div>
-                                </div>
-                                <!-- End of Single Comment -->
-                                <ul class="children">
-                                    <li class="single-comment-wrapper">
-                                        <!-- Single Comment -->
-                                        <div class="single-post-comment">
-                                            <!-- Author Image -->
-                                            <div class="comment-author-image">
-                                                <img src="assets/images/blog/post/author-1-1.jpg" alt="" class="img-fluid">
+                                        <!-- Comment Content -->
+                                        <div class="comment-content">
+                                            <div class="comment-author-name">
+
+                                                <h6>{{$comment->user["name"]}}</h6> <span>{{$comment->updated_at}} </span>
                                             </div>
-                                            <!-- Comment Content -->
-                                            <div class="comment-content">
-                                                <div class="comment-author-name">
-                                                    <h6>Helen Sharp</h6> <span> 5 Jan 2019 at 6:58 pm </span>
-                                                </div>
-                                                <p>On recommend tolerably my belonging or am. Mutual has cannot back beauty indeed now back sussex merely you. </p>
-                                                <a href="#" class="reply-btn">Reply</a>
-                                            </div>
+                                            <p>{{$comment->desc}}</p>
                                         </div>
-                                        <!-- End of Single Comment -->
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="single-comment-wrapper">
-                                <!-- Single Comment -->
-                                <div class="single-post-comment">
-                                    <!-- Author Image -->
-                                    <div class="comment-author-image">
-                                        <img src="assets/images/blog/post/author-2.jpg" alt="" class="img-fluid">
                                     </div>
-                                    <!-- Comment Content -->
-                                    <div class="comment-content">
-                                        <div class="comment-author-name">
-                                            <h6>Pamela Pavliscak</h6> <span> 5 Jan 2019 at 6:48 pm </span>
-                                        </div>
-                                        <p>On recommend tolerably my belonging or am. Mutual has cannot beauty indeed now back sussex merely you. It possible no husbands jennings offended.</p>
-                                        <a href="#" class="reply-btn">Reply</a>
-                                    </div>
-                                </div>
-                                <!-- End of Single Comment -->
-                            </li>
-                            <li class="single-comment-wrapper">
-                                <!-- Single Comment -->
-                                <div class="single-post-comment">
-                                    <!-- Author Image -->
-                                    <div class="comment-author-image">
-                                        <img src="assets/images/blog/post/author-3.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <!-- Comment Content -->
-                                    <div class="comment-content">
-                                        <div class="comment-author-name">
-                                            <h6>Jerrard Spool</h6> <span> 5 Jan 2019 at 6:52 pm </span>
-                                        </div>
-                                        <p>On recommend tolerably my belonging or am. Mutual has cannot beauty indeed now back sussex merely you. It possible no husbands jennings offended.</p>
-                                        <a href="#" class="reply-btn">Reply</a>
-                                    </div>
-                                </div>
-                                <!-- End of Single Comment -->
-                            </li>
+                                    <!-- End of Single Comment -->
+                                </li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                     <!-- End of Comments -->
