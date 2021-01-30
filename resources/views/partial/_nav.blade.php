@@ -139,6 +139,24 @@
                                     </ul>
                                 </li>
                                 <li><a href="contact.html">Contact</a></li>
+                                @auth
+                                <li class="menu-item-has-children"><a href="#">{{ Auth::user()->name }} </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#"
+                                            onclick="event.preventDefault();
+                                                document.getElementById('logoutForm').submit();
+                                            "
+
+                                            >Logout</a></li>
+
+
+                                        <form id="logoutForm" action="{{route('logout')}}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+
+                                    </ul>
+                                </li>
+                                @endauth
                             </ul>
                         </div>
                         <!-- End of Nav Menu -->

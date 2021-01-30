@@ -68,6 +68,11 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="form-group row mt-20" style="margin-top: 20px">
+                            <div class="col-md-6 offset-md-4">
+                                <a href="{{route('github')}}" class="btn btn-secondary">Login with Github</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

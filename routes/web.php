@@ -15,10 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/blog_details/{post}','HomeController@show')->name('blog_details');
+
+
+Route::get('/sign-in/github', 'Auth\LoginController@github')->name('github');
+Route::get('sign-in/github/redirect','Auth\LoginController@githubRedirect')->name('githubRedirect');
 
 
 Route::resource('categories','CategoryController');
