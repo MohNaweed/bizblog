@@ -26,3 +26,11 @@ Route::get('sign-in/github/redirect','Auth\LoginController@githubRedirect')->nam
 
 
 Route::resource('categories','CategoryController');
+
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('/','Admin\AdminController@index')->name('dashboard');
+    Route::resource('/posts','Admin\AdminController');
+});
+
+
