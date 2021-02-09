@@ -15,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.pages.post.index');
+        $posts = Post::orderBy('updated_at','desc')->get();
+        return view('admin.pages.post.index',compact('posts'));
     }
 
     /**
@@ -25,6 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        return view('admin.pages.post.create');
 
     }
 
@@ -36,7 +38,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->slug = $request->slug;
+        $post->user_id = auth()->id();
+        $post->save();
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -58,7 +67,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+
+
+        return view('admin.pages.post.edit',compact('post'));
     }
 
     /**
@@ -70,7 +81,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->slug = $request->slug;
+        $post->user_id = auth()->id();
+        $post->save();
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -81,6 +98,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+
+        $post->delete();
+        $post->save();
+
+        return redirect()->route('posts.index');
     }
 }
