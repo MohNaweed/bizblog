@@ -1,7 +1,5 @@
 <link rel="shortcut icon" href="{{ URL::asset('admin/assets/images/favicon.ico') }}">
 
-@yield('css')
-
 <!-- App css -->
 <link href="{{ URL::asset('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -17,3 +15,7 @@
     <link href="{{ URL::asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     @endif
 @endif
+<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
+
+@yield('css')

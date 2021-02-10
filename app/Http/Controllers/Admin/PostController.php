@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Brian2694\Toastr\Facades\Toastr;
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -26,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.post.create');
+        return view('admin.pages.post.create')->withCategories(Category::all());
 
     }
 
@@ -44,7 +46,9 @@ class PostController extends Controller
         $post->slug = $request->slug;
         $post->user_id = auth()->id();
         $post->save();
+        $post->categories()->sync($request->categories);
 
+        Toastr::success('The post has been successfully added','Add Post');
         return redirect()->route('posts.index');
     }
 
@@ -99,8 +103,9 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
 
-        $post->delete();
-        $post->save();
+        Post::destroy($post->id);
+
+        Toastr::info('The post has been deleted successfully','info');
 
         return redirect()->route('posts.index');
     }

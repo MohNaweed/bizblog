@@ -40,7 +40,7 @@
             <span> Projects </span>
             <span class="menu-arrow"></span>
         </a>
-    
+
         <ul class="nav-second-level" aria-expanded="false">
             <li>
                 <a href="/apps/project/list">List</a>
@@ -56,7 +56,7 @@
             <span> Tasks </span>
             <span class="menu-arrow"></span>
         </a>
-    
+
         <ul class="nav-second-level" aria-expanded="false">
             <li>
                 <a href="/apps/task/list">List</a>

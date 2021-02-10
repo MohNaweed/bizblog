@@ -3,7 +3,7 @@
 
 @section('css')
 <!-- Summernote css -->
-<link href="{{ URL::asset('admin/assets/libs/summernote/summernote.min.css') }}" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 @endsection
 
 @section('breadcrumb')
@@ -22,32 +22,6 @@
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="header-title mt-0 mb-1">Default Editor</h4>
-                <p class="sub-header">Super simple wysiwyg editor on Bootstrap</p>
-                <div id="summernote-editor">
-                    <h6>This is an simple editable area.</h6>
-                    <ul>
-                        <li>
-                            Select a text to reveal the toolbar.
-                        </li>
-                        <li>
-                            Edit rich document on-the-fly, so elastic!
-                        </li>
-                    </ul>
-                    <p>
-                        End of simple area
-                    </p>
-                </div> <!-- end summernote-editor-->
-            </div>
-        </div> <!-- end card-->
-    </div> <!-- end col-->
-</div>
-<!-- end row-->
-
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -78,7 +52,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-2 col-form-label" for="example-textarea">Description</label>
                                 <div class="col-lg-10">
-                                    <textarea class="form-control" rows="5" id="example-textarea" name="body"></textarea>
+                                    <textarea class="form-control" rows="5" id="summernote" name="body"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -87,6 +61,16 @@
                                     <input type="file" rows="5" id="example-textarea" name="pics" >
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label for="exampleFormControlSelect2">Categories</label>
+                                <div class="col-lg-10">
+                                    <select multiple class="form-control" id="exampleFormControlSelect2" name="categories[]">
+                                        @foreach($categories as $cat)
+                                            <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                         @endforeach
+                                    </select>
+                                </div>
+                              </div>
                             <div class="form-group row">
                                 <div class="col-lg-2 offset-lg-2">
                                     <input type="submit" class="btn btn-secondary" value="Add Post">
@@ -107,6 +91,7 @@
 
 @section('script')
 <script>
+
         function generateSlugValue(e){
             $('#slug').val(convertToSlug(e.value));
 
@@ -128,9 +113,17 @@
     })
 </script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <!--Summernote js-->
-<script src="{{ URL::asset('admin/assets/libs/summernote/summernote.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script>
+    $('#summernote').summernote({
+    placeholder: 'Insert the post Description',
+    tabsize: 2,
+    height: 100
+    });
+</script>
+
 @endsection
 
 @section('script-bottom')

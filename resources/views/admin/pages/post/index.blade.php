@@ -39,10 +39,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
-                                <th>Body</th>
+                                <th>#Comments</th>
                                 <th>User Name</th>
                                 <th>Photo</th>
                                 <th>Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,18 +54,14 @@
                             <tr>
                                 <td>{{$no++}}</td>
                                 <td>{{$post->title}}</td>
-                                <td>{{ Str::limit($post->body, 20) }}</td>
+                                <td>{{count($post->categories)}}</td>
                                 <td>{{$post->user->name}}</td>
                                 <td>photo</td>
-                                <td><a href="{{route('posts.edit',$post->slug)}}"><i class="fas fa-edit"></a></i></td>
-                                <td>
-
-                                    <form id="deletePost" action="{{route('posts.destroy',$post->slug)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="submit" value="delete">
-                                    </form>
+                                <td style="padding: 0px 30px">
+                                    <a href="{{route('posts.edit',$post->slug)}}"><i class="fas fa-edit"></a></i>
+                                    <a href="" class="float-right" data-toggle="modal" onclick="handleDeleteButton('{{$post->slug}}')"><i class="fas fa-trash"></a></i>
                                 </td>
+                                <td>{!! Str::limit($post->body, 100) !!}</td>
 
                             </tr>
                             @endforeach
@@ -76,9 +73,43 @@
         </div><!-- end col-->
     </div>
     <!-- end row-->
+
+
+    <!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="" method="Post" id="deleteForm">
+            @csrf
+            @method('DELETE')
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you really want to delete this post?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger">Delete Post</button>
+                </div>
+              </div>
+        </form>
+    </div>
+  </div>
 @endsection
 
 @section('script')
+  <script>
+      function handleDeleteButton(slug){
+          $('#deleteModal').modal("show");
+          document.getElementById('deleteForm').action = '/dashboard/posts/'+ slug;
+      }
+
+
+  </script>
 <!-- datatable js -->
 <script src="{{ URL::asset('admin/assets/libs/datatables/datatables.min.js') }}"></script>
 @endsection
