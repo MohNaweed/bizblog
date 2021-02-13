@@ -58,7 +58,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-2 col-form-label" for="example-textarea">Images</label>
                                 <div class="col-lg-10">
-                                    <input type="file" rows="5" id="example-textarea" name="pics" >
+                                    <input type="file" rows="5" id="example-textarea" name="pic" >
                                 </div>
                             </div>
                             <div class="form-group row">

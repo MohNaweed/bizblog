@@ -36,5 +36,10 @@ class Post extends Model
         return 'slug';
     }
 
+    public function image(){
+
+        return $this->morphOne('App\Image', 'imageable');
+    }
+
 
 }

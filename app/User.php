@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'integer',
     ];
 
 
@@ -51,4 +51,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $this->hasOne('App\Profile');
     }
+
+    public function image(){
+
+        return $this->morphOne('App\Image', 'imageable');
+    }
 }
+

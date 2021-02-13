@@ -56,7 +56,7 @@
                                 <td>{{$post->title}}</td>
                                 <td>{{count($post->categories)}}</td>
                                 <td>{{$post->user->name}}</td>
-                                <td>photo</td>
+                                <td><img src="{{asset('storage/smallPic/'. $post->image['path'])}}" /></td>
                                 <td style="padding: 0px 30px">
                                     <a href="{{route('posts.edit',$post->slug)}}"><i class="fas fa-edit"></a></i>
                                     <a href="" class="float-right" data-toggle="modal" onclick="handleDeleteButton('{{$post->slug}}')"><i class="fas fa-trash"></a></i>

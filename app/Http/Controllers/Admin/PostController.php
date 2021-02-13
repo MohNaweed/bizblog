@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
+use Intervention\Image\Facades\Image;
+use App\User;
 use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
@@ -17,6 +19,12 @@ class PostController extends Controller
      */
     public function index()
     {
+
+        // $post = Post::find(42);
+
+        // return $post->image->path;
+
+
         $posts = Post::orderBy('updated_at','desc')->get();
         return view('admin.pages.post.index',compact('posts'));
     }
@@ -40,6 +48,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+        $uploadedImage = $request->file('pic')->store('public/images');
+        $retrivePath = storage_path('app'). '\\' .$uploadedImage;
+
+        $storePath = str_replace('images','smallPic',$retrivePath);
+        $img = Image::make($retrivePath)->resize('100','100')->save($storePath);
+
+        $saveName = str_replace('public/images/','',$uploadedImage);
+
+
         $post = new Post;
         $post->title = $request->title;
         $post->body = $request->body;
@@ -47,6 +65,9 @@ class PostController extends Controller
         $post->user_id = auth()->id();
         $post->save();
         $post->categories()->sync($request->categories);
+        $post->image()->create([
+            'path' => $saveName
+        ]);
 
         Toastr::success('The post has been successfully added','Add Post');
         return redirect()->route('posts.index');
