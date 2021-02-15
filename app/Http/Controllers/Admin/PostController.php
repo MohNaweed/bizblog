@@ -48,14 +48,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $saveName = 'default.jpg';
 
-        $uploadedImage = $request->file('pic')->store('public/images');
-        $retrivePath = storage_path('app'). '\\' .$uploadedImage;
+        if($request->hasFile('pic')){
+            $uploadedImage = $request->file('pic')->store('public/images');
+            $retrivePath = storage_path('app'). '\\' .$uploadedImage;
 
-        $storePath = str_replace('images','smallPic',$retrivePath);
-        $img = Image::make($retrivePath)->resize('100','100')->save($storePath);
+            $storePath = str_replace('images','smallPic',$retrivePath);
+            $img = Image::make($retrivePath);
+            // resize the image to a width of 300 and constrain aspect ratio (auto height)
+            $img->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($storePath);
 
-        $saveName = str_replace('public/images/','',$uploadedImage);
+            $saveName = str_replace('public/images/','',$uploadedImage);
+        }
+
+
 
 
         $post = new Post;
@@ -92,9 +101,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $categories = Category::all();
 
-
-        return view('admin.pages.post.edit',compact('post'));
+        return view('admin.pages.post.edit',compact('post','categories'));
     }
 
     /**
@@ -106,11 +115,33 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        //Image process
+        $saveName = $post->image->path;
+
+        if($request->hasFile('pic')){
+            $uploadedImage = $request->file('pic')->store('public/images');
+            $retrivePath = storage_path('app'). '\\' .$uploadedImage;
+
+            $storePath = str_replace('images','smallPic',$retrivePath);
+            $img = Image::make($retrivePath);
+            // resize the image to a width of 300 and constrain aspect ratio (auto height)
+            $img->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($storePath);
+
+            $saveName = str_replace('public/images/','',$uploadedImage);
+        }
+
         $post->title = $request->title;
         $post->body = $request->body;
         $post->slug = $request->slug;
-        $post->user_id = auth()->id();
         $post->save();
+        $post->categories()->sync($request->categories);
+        $post->image()->update([
+            'path' => $saveName
+        ]);
+
+        Toastr::success('The post has been successfully updated','Update Post');
 
         return redirect()->route('posts.index');
     }

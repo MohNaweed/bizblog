@@ -24,6 +24,8 @@
 <!--==== Magnific Popup ====-->
 <link rel="stylesheet" href="{{asset('assets/plugins/magnific-popup/magnific-popup.css')}}">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
 <!--==== Style css file ====-->
 <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 

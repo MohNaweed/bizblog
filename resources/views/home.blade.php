@@ -121,7 +121,7 @@
                             </ul>
                             <!-- Post Desc -->
                             <div class="desc">
-                                <p>{{ $post->body}}</p>
+                                <p>{!! $post->body !!}</p>
                             </div>
                         </div>
                     </div>

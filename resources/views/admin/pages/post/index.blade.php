@@ -27,22 +27,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title mt-0 mb-1">Basic Data Table</h4>
-                    <p class="sub-header">
-                        DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction
-                        function:
-                        <code>$().DataTable();</code>.
-                    </p>
+                    <h4 class="header-title mt-0 mb-1">All Posts</h4>
+                    <a href="{{route('posts.create')}}"><i class="fas fa-plus fa-2x"></i></a>
 
                     <table id="basic-datatable" class="table dt-responsive nowrap">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
-                                <th>#Comments</th>
+                                <th>Categories</th>
                                 <th>User Name</th>
-                                <th>Photo</th>
+                                <th>#Comments</th>
                                 <th>Actions</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -54,14 +51,19 @@
                             <tr>
                                 <td>{{$no++}}</td>
                                 <td>{{$post->title}}</td>
-                                <td>{{count($post->categories)}}</td>
+                                <td>
+                                    @foreach($post->categories as $postCat)
+                                        <span class="badge badge-primary"> {{$postCat->name  }}</span>
+                                    @endforeach
+                                </td>
                                 <td>{{$post->user->name}}</td>
-                                <td><img src="{{asset('storage/smallPic/'. $post->image['path'])}}" /></td>
+                                <td>{{count($post->comments)    }}</td>
                                 <td style="padding: 0px 30px">
                                     <a href="{{route('posts.edit',$post->slug)}}"><i class="fas fa-edit"></a></i>
                                     <a href="" class="float-right" data-toggle="modal" onclick="handleDeleteButton('{{$post->slug}}')"><i class="fas fa-trash"></a></i>
                                 </td>
                                 <td>{!! Str::limit($post->body, 100) !!}</td>
+                                <th><img src="{{asset('storage/smallPic/'. $post->image['path'])}}" /></th>
 
                             </tr>
                             @endforeach

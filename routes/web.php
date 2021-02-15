@@ -34,3 +34,8 @@ Route::prefix('dashboard')->group(function () {
 });
 
 
+// comment routes
+Route::resource('comments','CommentController');
+Route::get('commentes/delete/{comment}','CommentController@delete')->name('comments.delete');
+
+

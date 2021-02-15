@@ -110,10 +110,15 @@
                                         <div class="comment-content">
                                             <div class="comment-author-name">
 
-                                                <h6>{{$comment->user["name"]}}</h6> <span>{{$comment->updated_at}} </span>
+                                                <h6>{{$comment->user["name"]}}</h6>
+                                                <span>{{$comment->updated_at}} </span>
+                                                @if($comment->user_id == Auth::id())
+                                                    <a href="{{route('comments.delete',$comment->id)}}" class="float-right"><i class="fas fa-close"></i></a>
+                                                @endif
                                             </div>
                                             <p>{{$comment->desc}}</p>
                                         </div>
+
                                     </div>
                                     <!-- End of Single Comment -->
                                 </li>
@@ -126,16 +131,12 @@
                     <!-- Comment Form -->
                     <div class="post-comment-form-cover">
                         <h3>Write your comment</h3>
-                        <form class="comment-form">
+                        <form class="comment-form" action="{{route('comments.store')}}" method="POST">
+                            @csrf
                             <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Name">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Email">
-                                </div>
+                                <input type="hidden" value="{{$post->id}}" name="postId">
                                 <div class="col-md-12">
-                                    <textarea class="form-control" placeholder="Write your comment"></textarea>
+                                    <textarea class="form-control" placeholder="Write your comment" name="desc"></textarea>
                                 </div>
                                 <div class="col-md-12">
                                     <button class="btn btn-primary">Submit </button>
