@@ -56,5 +56,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $this->morphOne('App\Image', 'imageable');
     }
+
+    public function likes(){
+        return $this->hasMany('App\Like');
+    }
 }
 

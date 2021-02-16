@@ -117,7 +117,18 @@
                                 </li>
                                 <li class="meta-date"><a href="#">{{$post->updated_at}}</a></li>
                                 <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> {{count($post->comments)}}</a></li>
-                                <li ><img src="{{asset('assets/icons/heart_outline_48px.png')}}" class="addlike" alt="" width="30px" height="30px" style="cursor: pointer"></li>
+                                <li>
+                                    <?php
+                                        $source = 'assets/icons/heart_outline_48px.png';
+                                        if($post->isLiked(auth()->user())){
+                                           $source =  'assets/icons/heart_48px.png';
+                                        }
+
+
+                                    ?>
+                                    <img postId={{$post->id}} src="{{asset($source ?? '')}}" class="addlike" alt="" width="30px" height="30px" style="cursor: pointer">
+                                    <span>{{$post->likes->count()}}</span>
+                                </li>
                             </ul>
                             <!-- Post Desc -->
                             <div class="desc">
@@ -376,6 +387,8 @@
         </div>
     </div>
 </div>
+
+@csrf
 @endsection
 
 @section('script')
@@ -384,14 +397,38 @@
     $(document).ready(function(){
         $(".addlike").each(function(){
             $(this).click(function(){
+                var postId = $(this).attr('postId');
+                var span = $(this).next();
+                var oldValue = span.text();
+                var newValue = 0;
+
+
+
                 if($(this).attr("src") == "http://bizblog.test/assets/icons/heart_outline_48px.png"){
 
+                    newValue = parseInt(oldValue) + 1;
+
                     $(this).attr("src","http://bizblog.test/assets/icons/heart_48px.png");
+                    $.post("http://bizblog.test/likes", {_token:$('input[name="_token"]').val(), post_id :postId },function (data) {
+
+                            console.log(data);
+                        }
+                    );
+
                 }
 
                 else{
+                    newValue = parseInt(oldValue) - 1;
                     $(this).attr("src","http://bizblog.test/assets/icons/heart_outline_48px.png");
+                    $.post("http://bizblog.test/likes/delete", {_token:$('input[name="_token"]').val(), post_id :postId },function (data) {
+
+                        console.log(data);
+
+                        }
+                    );
                 }
+
+                span.text(newValue);
 
             })
         })

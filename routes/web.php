@@ -39,3 +39,5 @@ Route::resource('comments','CommentController');
 Route::get('commentes/delete/{comment}','CommentController@delete')->name('comments.delete');
 
 
+Route::post('likes','LikesController@store')->name('likes.store');
+Route::post('likes/delete','LikesController@delete')->name('likes.delete');

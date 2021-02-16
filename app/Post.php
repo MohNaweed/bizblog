@@ -41,5 +41,16 @@ class Post extends Model
         return $this->morphOne('App\Image', 'imageable');
     }
 
+    public function likes(){
+
+        return $this->hasMany('App\Like');
+    }
+
+    public function isLiked(User $user){
+
+        return $this->likes->contains('user_id',$user->id);
+
+    }
+
 
 }
